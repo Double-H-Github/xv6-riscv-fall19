@@ -55,13 +55,7 @@ void bit_clear(char *array, int index) {
   char m = (1 << (index % 8));
   array[index/8] = (b & ~m);
 }
-// toggle bit at position index in array
-void bit_toggle(char *array,int index){
-  index/=2;
-  char b = array[index/8];
-  char m = (1 << (index % 8));
-  array[index/8] = (b ^ m);
-}
+
 // Print a bit vector as a list of ranges of 1 bits
 void
 bd_print_vector(char *vector, int len) {
@@ -259,15 +253,15 @@ bd_mark(void *start, void *stop)
         bit_set(bd_sizes[k].split, bi);
       }
       // bit_set(bd_sizes[k].alloc, bi);
-      bit_toggle(bd_sizes[k].alloc,bi);
-      // if (bit_isset(bd_sizes[k-1].alloc, bi/2))
-      // {
-      //   bit_clear(bd_sizes[k].alloc, bi/2);
-      // } 
-      // else
-      // {
-      //   bit_set(bd_sizes[k].alloc, bi/2);
-      // }
+      // bit_toggle(bd_sizes[k].alloc,bi);
+      if (bit_isset(bd_sizes[k].alloc, bi/2))
+      {
+        bit_clear(bd_sizes[k].alloc, bi/2);
+      } 
+      else
+      {
+        bit_set(bd_sizes[k].alloc, bi/2);
+      }
     }
   }
 }
